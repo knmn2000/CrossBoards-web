@@ -1,40 +1,49 @@
 import './App.css';
 import {
   Grid,
-  AppBar,
-  Toolbar,
+  TextField,
+  Paper,
   Typography,
-  Button,
-  IconButton,
   makeStyles,
+  Button,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Navbar } from './components/Navbar';
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     flexGrow: 1,
+    justifyContent: 'center',
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
+  container: {
+    flex: 1,
+    display: 'flex',
   },
-  title: {
-    flexGrow: 1,
-    color: 'black',
+  headerText: {
+    fontWeight: 500,
     textAlign: 'center',
-    fontSize: 30,
-    fontWeight: 'bold',
   },
-  nav: {
-    backgroundColor: 'white',
+  centerGrid: {
+    display: 'block',
+    verticalAlign: 'middle',
+    height: '50%',
   },
-  authButton: {
-    fontSize: 30,
-    flexGrow: 1,
-    color: 'black',
+
+  paper: {
+    margin: '10% 10% 10% 10%',
     textAlign: 'center',
-    fontWeight: 'bold',
-    textAlignLast: 'end',
+  },
+  paperContent: {
+    padding: '5%',
+  },
+  button: {
+    width: '100%',
+    margin: '10px',
+  },
+  textField: {
+    width: '100%',
+    margin: '10px',
   },
 }));
 function App() {
@@ -42,31 +51,72 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <Grid>
-        <AppBar position='static'>
-          <Toolbar className={classes.nav}>
-            <Grid container justifyContent='center'>
-              <Grid item xs />
-              <Grid item xs>
-                <Typography variant='h6' className={classes.title}>
-                  CrossBoards
-                </Typography>
+      <>
+        <Navbar />
+        <Grid container direction='row'>
+          <Grid item xs />
+          <Grid item xs={8}>
+            <Paper className={classes.paper} elevation={2}>
+              <Grid
+                container
+                direction='column'
+                alignContent='center'
+                spacing={3}
+                className={classes.paperContent}
+              >
+                <Grid item xs>
+                  <Typography variant='h4' className={classes.headerText}>
+                    Copy/Paste here:{' '}
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    id='outlined-multiline-flexible'
+                    multiline
+                    maxRows={4}
+                    value='paste'
+                    onChange={() => {}}
+                    variant='outlined'
+                    className={classes.textField}
+                  />
+                </Grid>
+                <Grid container direction='column' item spacing={1}>
+                  <Grid container item direction='row' spacing={2}>
+                    <Grid item xs>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        className={classes.button}
+                      >
+                        Copy
+                      </Button>
+                    </Grid>
+                    <Grid item xs>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        className={classes.button}
+                      >
+                        Paste
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      className={classes.button}
+                    >
+                      Clear
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item xs>
-                <IconButton className={classes.authButton}>
-                  <ExitToAppIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
-            <Button color='inherit'>Login</Button>
-          </Toolbar>
-        </AppBar>
-        <Grid container style={{ flex: 1 }}>
-          <Grid item>
-            <Typography>Hello</Typography>
+            </Paper>
           </Grid>
+          <Grid item xs />
         </Grid>
-      </Grid>
+      </>
     </div>
   );
 }

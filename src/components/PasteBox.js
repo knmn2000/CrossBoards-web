@@ -64,7 +64,7 @@ export const PasteBox = () => {
           }
         });
     }
-  });
+  }, [currentUser]);
   const paste = useCallback(async () => {
     if (text.length < 1) {
       await navigator.clipboard.readText().then((clip) => {

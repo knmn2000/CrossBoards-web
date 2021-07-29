@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Grid,
   AppBar,
   Toolbar,
   Typography,
-  Button,
   IconButton,
   makeStyles,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import { auth, googleAuthProvider, AuthContext } from '../auth';
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
@@ -40,6 +40,17 @@ const useStyles = makeStyles((theme) => ({
 
 export const Navbar = () => {
   const classes = useStyles();
+  const { currentUser } = useContext(AuthContext);
+  const signin = () => {
+    auth.signInWithPopup(googleAuthProvider).catch(alert);
+    // .then(()=>{ do something })
+  };
+  const signout = () => {
+    auth.signOut();
+    // .then(() => {
+    // do something
+    // });
+  };
   return (
     <AppBar position='static'>
       <Toolbar className={classes.nav}>
@@ -51,8 +62,18 @@ export const Navbar = () => {
             </Typography>
           </Grid>
           <Grid item xs className={classes.authButtonContainer}>
-            <IconButton size='small'>
-              <ExitToAppIcon className={classes.authButton} />
+            <IconButton size='small' onClick={currentUser ? signout : signin}>
+              {currentUser ? (
+                <>
+                  <Typography variant='button'>Logout</Typography>
+                  <MeetingRoomIcon className={classes.authButton} />
+                </>
+              ) : (
+                <>
+                  <Typography variant='button'>Login</Typography>
+                  <ExitToAppIcon className={classes.authButton} />
+                </>
+              )}
             </IconButton>
           </Grid>
         </Grid>

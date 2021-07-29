@@ -54,6 +54,17 @@ export const PasteBox = () => {
   const handleText = (txt) => {
     setText(txt);
   };
+  useEffect(() => {
+    if (currentUser) {
+      db.collection('users')
+        .doc(currentUser.uid)
+        .onSnapshot((doc) => {
+          if (doc) {
+            setText(doc.data().clip);
+          }
+        });
+    }
+  });
   const paste = useCallback(async () => {
     if (text.length < 1) {
       await navigator.clipboard.readText().then((clip) => {
@@ -83,7 +94,6 @@ export const PasteBox = () => {
       await navigator.clipboard
         .readText()
         .then((clip) => {
-          console.log(text, clip);
           if (clip === text) {
             paste();
           }

@@ -10,6 +10,7 @@ import {
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import { auth, googleAuthProvider, AuthContext } from '../auth';
+import useIsMobile from '../hooks/useIsMobile';
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     color: 'black',
     textAlign: 'center',
-    fontSize: 40,
     fontWeight: 'bold',
   },
   nav: {
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Navbar = () => {
+  const isMobile = useIsMobile();
   const classes = useStyles();
   const { currentUser } = useContext(AuthContext);
   const signin = () => {
@@ -57,7 +58,11 @@ export const Navbar = () => {
         <Grid container justifyContent='center'>
           <Grid item xs />
           <Grid item xs={9}>
-            <Typography variant='h6' className={classes.title}>
+            <Typography
+              variant='h6'
+              className={classes.title}
+              style={isMobile ? { fontSize: 35 } : { fontSize: 40 }}
+            >
               CrossBoards
             </Typography>
           </Grid>
@@ -65,12 +70,14 @@ export const Navbar = () => {
             <IconButton size='small' onClick={currentUser ? signout : signin}>
               {currentUser ? (
                 <>
-                  <Typography variant='button'>Logout</Typography>
+                  {!isMobile && (
+                    <Typography variant='button'>Logout</Typography>
+                  )}
                   <MeetingRoomIcon className={classes.authButton} />
                 </>
               ) : (
                 <>
-                  <Typography variant='button'>Login</Typography>
+                  {!isMobile && <Typography variant='button'>Login</Typography>}
                   <ExitToAppIcon className={classes.authButton} />
                 </>
               )}

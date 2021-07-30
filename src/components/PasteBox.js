@@ -8,6 +8,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { AuthContext, db } from '../auth';
+import useIsMobile from '../hooks/useIsMobile';
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
@@ -31,7 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   paper: {
-    margin: '10% 10% 10% 10%',
+    margin: '10%',
+    textAlign: 'center',
+  },
+  paperSm: {
+    margin: '10% 2%',
     textAlign: 'center',
   },
   paperContent: {
@@ -41,13 +46,20 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: '10px',
   },
+  buttonSm: {
+    width: '100%',
+  },
   textField: {
     width: '100%',
     margin: '10px',
   },
+  textFieldSm: {
+    width: '100%',
+  },
 }));
 
 export const PasteBox = () => {
+  const isMobile = useIsMobile();
   const classes = useStyles();
   const { currentUser } = useContext(AuthContext);
   const [text, setText] = useState('');
@@ -103,7 +115,7 @@ export const PasteBox = () => {
     pasteText();
   }, [text, paste]);
   return (
-    <Paper className={classes.paper} elevation={2}>
+    <Paper className={isMobile ? classes.paperSm : classes.paper} elevation={2}>
       <Grid
         container
         direction='column'
@@ -123,7 +135,7 @@ export const PasteBox = () => {
             maxRows={4}
             value={text}
             variant='outlined'
-            className={classes.textField}
+            className={isMobile ? classes.textFieldSm : classes.textField}
             onChange={(e) => handleText(e.target.value)}
           />
         </Grid>
@@ -133,7 +145,7 @@ export const PasteBox = () => {
               <Button
                 variant='contained'
                 color='primary'
-                className={classes.button}
+                className={isMobile ? classes.buttonSm : classes.button}
                 onClick={copy}
               >
                 Copy
@@ -143,7 +155,7 @@ export const PasteBox = () => {
               <Button
                 variant='contained'
                 color='primary'
-                className={classes.button}
+                className={isMobile ? classes.buttonSm : classes.button}
                 onClick={paste}
               >
                 Paste
@@ -154,7 +166,7 @@ export const PasteBox = () => {
             <Button
               variant='contained'
               color='secondary'
-              className={classes.button}
+              className={isMobile ? classes.buttonSm : classes.button}
               onClick={clear}
             >
               Clear

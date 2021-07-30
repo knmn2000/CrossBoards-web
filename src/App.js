@@ -3,6 +3,7 @@ import './App.css';
 import { Grid, makeStyles } from '@material-ui/core';
 import { Navbar } from './components/Navbar';
 import { PasteBox } from './components/PasteBox';
+import useIsMobile from './hooks/useIsMobile';
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function App() {
+  const isMobile = useIsMobile();
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -20,7 +22,7 @@ function App() {
         <Navbar />
         <Grid container direction='row'>
           <Grid item xs />
-          <Grid item xs={8}>
+          <Grid item xs={isMobile ? 12 : 8}>
             <PasteBox />
           </Grid>
           <Grid item xs />
